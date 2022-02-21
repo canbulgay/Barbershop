@@ -19,6 +19,11 @@
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
         />
+
+          <v-btn to="/form" class="ml-2" text>
+          <v-icon>mdi-calendar</v-icon>
+          <span class="ml-2">Reservation</span>
+        </v-btn>
       </div>
 
       <v-spacer></v-spacer>
