@@ -48,8 +48,11 @@ export default {
       loading: false,
     };
   },
+  computed : {
+    ...mapState(["redirectAfterLogin"])
+  },
   methods: {
-    ...mapMutations(["setLoggedInUser", "addError"]),
+    ...mapMutations(["setLoggedInUser", "addError","clearRedirectAfterLogin"]),
     login() {
       this.loading = true;
 
@@ -60,7 +63,14 @@ export default {
         })
         .then((response) => {
           this.setLoggedInUser(response.data);
-          this.$router.push("/");
+          if(this.redirectAfterLogin){
+            let toPath = this.redirectAfterLogin;
+            this.clearRedirectAfterLogin();
+            this.$router.push(toPath);
+          }else{
+
+            this.$router.push("/");
+          }
         })
         .catch((error) => {
           if (error.response) {
