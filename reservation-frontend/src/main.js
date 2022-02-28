@@ -3,6 +3,20 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import "./registerServiceWorker";
+import axios from "axios";
+
+axios.interceptors.request.use(
+  function (config) {
+    if(store.state.loggedInUser){
+      config.headers.Authorization = `Bearer ${store.state.loggedInUser.token}`;
+    }
+    return config;
+  },
+  function(error){
+    return Promise.reject(error);
+  }
+)
 
 Vue.config.productionTip = false;
 
