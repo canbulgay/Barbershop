@@ -1,6 +1,10 @@
 <template>
   <div>
     <v-container>
+      <v-alert type="success" v-if="reservationSucceded">
+        Reservation succeded
+        {{ new Date(lastReservation.reservation_at) }}
+      </v-alert>
       <v-card :loading="loading" max-width="350">
         <template slot="progress">
           <v-progress-linear
@@ -102,6 +106,8 @@ export default {
       loading: false,
       hours: [],
       selectedHour: 0,
+      reservationSucceded: false,
+      lastReservation: null,
     };
   },
   methods: {
@@ -115,7 +121,8 @@ export default {
           this.loading = false;
         })
         .catch((error) => {
-          console.log(error);
+          this.$store.commit("addError", error.message);
+          this.loading = false;
         });
     },
     createReservation() {
@@ -128,20 +135,22 @@ export default {
           reservation_at: this.datetime,
         })
         .then((response) => {
-          console.log(response.data);
+          this.lastReservation = response.data;
           this.name = null;
           this.email = null;
           this.phone = null;
           this.selectedHour = 0;
           this.fetchAvailableHoursOfDate();
           this.loading = false;
-          alert("Reservation succeded");
+          this.reservationSucceded = true;
         })
         .catch((error) => {
-          console.error(error);
-          console.log(error.response.data.message);
           this.loading = false;
-          alert("Try again :( \n" + error.response.data.message);
+          if (error.response) {
+            this.$store.commit("addError", error.response.data.message);
+          } else {
+            this.$store.commit("addError", error.message);
+          }
         });
     },
   },

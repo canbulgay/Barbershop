@@ -20,7 +20,7 @@
           width="100"
         />
 
-          <v-btn to="/form" class="ml-2" text>
+        <v-btn to="/form" class="ml-2" text>
           <v-icon>mdi-calendar</v-icon>
           <span class="ml-2">Reservation</span>
         </v-btn>
@@ -39,17 +39,50 @@
     </v-app-bar>
 
     <v-main>
+      <v-container>
+        <v-alert
+          v-for="(error,key) as errors"
+          :key="key"
+          type="error"
+          transition="scale-transition"
+        >
+          <v-row align="center">
+            <v-col class="grow">
+              {{ error }}
+            </v-col>
+            <v-col class="shrink">
+              <v-btn @click.prevent="deleteError(key)"> Dismiss </v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </v-container>
       <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 export default {
   name: "App",
 
   data: () => ({
-    //
+    drawer: false,
+    group: null,
   }),
+  methods: {
+    ...mapMutations(["deleteError"]),
+  },
+
+  computed: {
+    ...mapState(["errors"]),
+  },
+
+  watch: {
+    group() {
+      this.drawer = false;
+    },
+  },
 };
 </script>
