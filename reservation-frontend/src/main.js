@@ -8,15 +8,15 @@ import axios from "axios";
 
 axios.interceptors.request.use(
   function (config) {
-    if(store.state.loggedInUser){
+    if (store.state.loggedInUser) {
       config.headers.Authorization = `Bearer ${store.state.loggedInUser.token}`;
     }
     return config;
   },
-  function(error){
+  function (error) {
     return Promise.reject(error);
   }
-)
+);
 
 Vue.config.productionTip = false;
 
