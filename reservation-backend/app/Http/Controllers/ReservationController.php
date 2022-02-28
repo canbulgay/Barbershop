@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ReservationController extends Controller
 {
@@ -29,38 +29,36 @@ class ReservationController extends Controller
     {
         $startHour = 10;
         $date = now();
-        
-        if($request->query('date')){
+        if ($request->query('date')) {
             try {
                 $date = new Carbon($request->query('date'));
             } catch (\Throwable $th) {
                 $date = now();
             }
         }
+        
 
-        if($date->isToday()){
+        if ($date->isToday()) {
             $startHour = now()->addHour()->hour;
         }
 
-        if($startHour < 17){
-
-            $allHours = collect(range($startHour,17));
-        }else{
-
+        if ($startHour <= 17) {
+            $allHours = collect(range($startHour, 17));
+        } else {
             $allHours = collect([]);
         }
 
+
         $reservedHours = Reservation::query()
-        ->where('reservation_at','>=',$date->copy()->startOfDay())
-        ->where('reservation_at','<=',$date->copy()->endOfDay())
-        ->get()
-        ->map(function($reservation){
-            return $reservation->reservation_at->hour;
-        })
-        ->flatten();
+            ->where('reservation_at', '>=', $date->copy()->startOfDay())
+            ->where('reservation_at', '<=', $date->copy()->endOfDay())
+            ->get()
+            ->map(function ($reservation) {
+                return $reservation->reservation_at->hour;
+            })
+            ->flatten();
 
         return $allHours->diff($reservedHours)->flatten();
-
     }
 
     /**

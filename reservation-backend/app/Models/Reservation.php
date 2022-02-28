@@ -15,4 +15,8 @@ class Reservation extends Model
         'phone',
         'reservation_at'
     ];
+
+    protected $casts = [
+        'reservation_at' => 'datetime',
+    ];
 }

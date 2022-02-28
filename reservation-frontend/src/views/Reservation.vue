@@ -113,6 +113,9 @@ export default {
         .then((response) => {
           this.hours = response.data;
           this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
     createReservation() {

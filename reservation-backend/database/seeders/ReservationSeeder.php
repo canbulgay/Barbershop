@@ -15,18 +15,15 @@ class ReservationSeeder extends Seeder
      */
     public function run()
     {
-        for ($gun=0; $gun < 7 ; $gun++) { 
-
-            $start = now()->addHours($gun)->startOfDay();
+        for ($gun = 0; $gun < 7; $gun++) {
+            $start = now()->addDays($gun)->startOfDay();
             $daysReservedHours = [];
 
-
-            for ($i=0; $i < rand(1,5) ; $i++) { 
-                $randomHour = rand(10,17);
-                if(in_array($randomHour,$daysReservedHours)){
+            for ($i = 0; $i < rand(0, 5); $i++) {
+                $randomHour = rand(10, 17);
+                if (in_array($randomHour, $daysReservedHours)) {
                     $i--;
-                }else{
-
+                } else {
                     $daysReservedHours[] = $randomHour;
                     $reservationAt = $start->copy()->addHours($randomHour);
                     $reservation = Reservation::factory()->create([

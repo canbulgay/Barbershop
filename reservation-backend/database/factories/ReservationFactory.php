@@ -21,7 +21,7 @@ class ReservationFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
-            'reservation_at' => (new Carbon($this->faker->dateTimeBetween('now','+1 week')))->startOfDay()->addHours(rand(10,17)),
+            'reservation_at' => (new Carbon($this->faker->dateTimeBetween('now', '+1 week')))->startOfDay()->addHours(rand(10, 17)),
         ];
     }
 }
