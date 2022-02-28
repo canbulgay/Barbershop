@@ -42,6 +42,11 @@
         </v-btn>
       </div>
 
+       <v-btn @click.prevent="logout" class="ml-2" text v-if="loggedInUser">
+        <v-icon>mdi-account</v-icon>
+        <span class="ml-2">Logout</span>
+      </v-btn>
+
       <v-spacer></v-spacer>
 
       <v-btn
@@ -78,27 +83,16 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState , mapActions } from "vuex";
 
 export default {
   name: "App",
-
-  data: () => ({
-    drawer: false,
-    group: null,
-  }),
   methods: {
     ...mapMutations(["deleteError"]),
+    ...mapActions(["logout"]),
   },
-
   computed: {
     ...mapState(["errors", "loggedInUser"]),
-  },
-
-  watch: {
-    group() {
-      this.drawer = false;
-    },
   },
 };
 </script>
