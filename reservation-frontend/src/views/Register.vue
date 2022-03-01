@@ -47,7 +47,7 @@
 
 <script>
 import axios from "axios";
-import { mapActions, mapMutations} from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -59,11 +59,12 @@ export default {
       loading: false,
     };
   },
+
   methods: {
     ...mapActions(["redirectAfterLogin"]),
     ...mapMutations(["setLoggedInUser", "addError"]),
     register() {
-        this.loading = true;
+      this.loading = true;
       axios
         .post("http://localhost/api/register", {
           name: this.name,
@@ -76,7 +77,7 @@ export default {
           this.redirectAfterLogin();
         })
         .catch((error) => {
-          if (error.message) {
+          if (error.response) {
             this.addError(error.response.data.message);
           } else {
             this.addError(error.message);

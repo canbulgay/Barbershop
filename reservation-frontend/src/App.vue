@@ -20,49 +20,47 @@
           width="100"
         />
 
+        <v-btn to="/" class="ml-2" text>
+          <v-icon>mdi-home</v-icon>
+          <span class="ml-2">Home</span>
+        </v-btn>
+        <v-btn to="/about" class="ml-2" text>
+          <v-icon>mdi-information</v-icon>
+          <span class="ml-2">About</span>
+        </v-btn>
         <v-btn to="/form" class="ml-2" text>
           <v-icon>mdi-calendar</v-icon>
           <span class="ml-2">Reservation</span>
         </v-btn>
-        
-        <v-btn to="/register" class="ml-2" text v-if="!loggedInUser">
-          <v-icon>mdi-account-plus</v-icon>
-          <span class="ml-2">Register</span>
-        </v-btn>
-        
-        <v-btn to="/login" class="ml-2" text v-if="!loggedInUser">
-          <v-icon>mdi-account</v-icon>
-          <span class="ml-2">Login</span>
-        </v-btn>
-
-
-        <v-btn to="/profile" class="ml-2" text v-if="loggedInUser">
-          <v-icon>mdi-account</v-icon>
-          <span class="ml-2">{{ loggedInUser.name }}</span>
-        </v-btn>
       </div>
 
-       <v-btn to="/logout" class="ml-2" text v-if="loggedInUser">
+      <v-spacer></v-spacer>
+
+      <v-btn to="/profile" class="ml-2" text v-if="loggedInUser">
+        <v-icon>mdi-account</v-icon>
+        <span class="ml-2">{{ loggedInUser.name }}</span>
+      </v-btn>
+
+      <v-btn to="/logout" class="ml-2" text v-if="loggedInUser">
         <v-icon>mdi-account</v-icon>
         <span class="ml-2">Logout</span>
       </v-btn>
 
-      <v-spacer></v-spacer>
+      <v-btn to="/register" class="ml-2" text v-if="!loggedInUser">
+        <v-icon>mdi-account-plus</v-icon>
+        <span class="ml-2">Register</span>
+      </v-btn>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn to="/login" class="ml-2" text v-if="!loggedInUser">
+        <v-icon>mdi-account</v-icon>
+        <span class="ml-2">Login</span>
       </v-btn>
     </v-app-bar>
 
     <v-main>
       <v-container>
         <v-alert
-          v-for="(error,key) as errors"
+          v-for="(error, key) in errors"
           :key="key"
           type="error"
           transition="scale-transition"
@@ -72,7 +70,7 @@
               {{ error }}
             </v-col>
             <v-col class="shrink">
-              <v-btn @click.prevent="deleteError(key)"> Dismiss </v-btn>
+              <v-btn @click.prevent="deleteError(key)">Dismiss</v-btn>
             </v-col>
           </v-row>
         </v-alert>
@@ -83,13 +81,12 @@
 </template>
 
 <script>
-import { mapMutations, mapState , mapActions } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "App",
   methods: {
     ...mapMutations(["deleteError"]),
-    ...mapActions(["logout"]),
   },
   computed: {
     ...mapState(["errors", "loggedInUser"]),
