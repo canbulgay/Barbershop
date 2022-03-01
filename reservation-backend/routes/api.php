@@ -21,3 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::resource('reservations', ReservationController::class);
+
+Route::post('register', [UserController::class, 'register'])->name('user.register');
+Route::post('login', [UserController::class, 'login'])->name('user.login');
+Route::middleware(['auth:sanctum'])->post('logout', [UserController::class, 'logout'])->name('user.logout');
+Route::middleware(['auth:sanctum'])->get('me', [UserController::class, 'me'])->name('user.me');

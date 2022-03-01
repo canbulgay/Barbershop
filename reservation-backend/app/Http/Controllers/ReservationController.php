@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 
 class ReservationController extends Controller
 {
@@ -69,7 +71,13 @@ class ReservationController extends Controller
      */
     public function store(StoreReservationRequest $request)
     {
-        $reservation = Reservation::create($request->validated());
+
+        $validateData = $request->validated();
+
+        if(Auth::check()){
+            $validateData['user_id'] = Auth::id();
+        }
+        $reservation = Reservation::create($validateData);
 
         return response()->json($reservation,201);
     }
