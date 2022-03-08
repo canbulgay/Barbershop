@@ -42,14 +42,16 @@ export default new Vuex.Store({
   },
   actions: {
     logout({ commit }) {
-      axios
-        .post("http://localhost/api/logout")
-        .then(() => {
-          commit("deleteLoggedInUser");
-        })
-        .catch(() => {
-          commit("deleteLoggedInUser");
-        });
+      if (this.state.loggedInUser) {
+        axios
+          .post("http://localhost/api/logout")
+          .then(() => {
+            commit("deleteLoggedInUser");
+          })
+          .catch(() => {
+            commit("deleteLoggedInUser");
+          });
+      }
     },
     redirectAfterLogin({ commit, state }) {
       if (state.redirectAfterLogin) {
