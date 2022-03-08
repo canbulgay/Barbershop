@@ -22,13 +22,13 @@ export default new Vuex.Store({
   },
   mutations: {
     addError(state, error) {
-      this.errors.push(error);
+      state.errors.push(error);
     },
     deleteError(state, errorIndex) {
-      this.errors.splice(errorIndex, 1);
+      state.errors.splice(errorIndex, 1);
     },
     setLoggedInUser(state, user) {
-      this.loggedInUser = user;
+      state.loggedInUser = user;
     },
     deleteLoggedInUser(state) {
       state.loggedInUser = null;
