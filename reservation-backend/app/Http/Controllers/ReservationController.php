@@ -13,13 +13,29 @@ use Illuminate\Support\Facades\Auth;
 class ReservationController extends Controller
 {
     /**
+     * Constructor
+     * 
+     * @return void
+     */
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except('create','store');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $reservations = $request->user()
+        ->reservations()
+        ->orderBy('reservation_at','desc')
+        ->paginate(10);
+
+        return response()->json($reservations);
     }
 
     /**
