@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../api";
 
 export default {
   data() {
@@ -19,7 +19,7 @@ export default {
     };
   },
   beforeMount() {
-    axios.get("http://localhost/api/me").then((response) => {
+    axios.get("me").then((response) => {
       this.user = response.data;
     });
   },

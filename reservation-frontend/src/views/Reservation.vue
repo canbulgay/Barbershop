@@ -3,7 +3,7 @@
     <v-container>
       <v-alert type="success" v-if="reservationSucceded">
         Reservation succeded
-        {{ new Date(lastReservation.reservation_at) }}
+        {{ lastReservation.reservation_at }}
       </v-alert>
       <v-card :loading="loading" max-width="350">
         <template slot="progress">
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../api";
 
 export default {
   data() {
@@ -115,7 +115,7 @@ export default {
       this.selectedHour = 0;
       this.loading = true;
       axios
-        .get("http://localhost/api/reservations/create?date=" + this.date)
+        .get("reservations/create?date=" + this.date)
         .then((response) => {
           this.hours = response.data;
           this.loading = false;
@@ -128,7 +128,7 @@ export default {
     createReservation() {
       this.loading = true;
       axios
-        .post("http://localhost/api/reservations", {
+        .post("reservations", {
           name: this.name,
           email: this.email,
           phone: this.phone,

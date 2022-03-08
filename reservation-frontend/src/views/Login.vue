@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../api";
 import { mapActions, mapMutations } from "vuex";
 
 export default {
@@ -55,7 +55,7 @@ export default {
       this.loading = true;
 
       axios
-        .post("http://localhost/api/login", {
+        .post("login", {
           email: this.email,
           password: this.password,
         })
